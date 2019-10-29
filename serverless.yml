@@ -1,0 +1,27 @@
+service: liltree
+
+provider:
+  name: aws
+  runtime: java8
+  stage: prod
+  region: us-west-2
+  stackTags:
+    Owner: Erwin
+  deploymentBucket:
+    name: edebusschere-liltree-deployment-bucket
+    tags:
+      Owner: Erwin
+  apiName: liltree
+  endpointType: regional
+
+package:
+  artifact: build/libs/liltree-1.0-SNAPSHOT-all.jar
+
+functions:
+  tree:
+    handler: liltree.HacerUnArbol::apply
+    description: Make a nice little Christmas tree!
+    events:
+      - http:
+          path: /tree
+          method: GET
